@@ -126,28 +126,27 @@
 
             async function register(name, email, password, confirmPassword) {
                 try {
-                    window.location.href = "/fatour/home/dashboard.html"
 
-                    /*await fetch("localhost:8080/cadastro", {
+                    await fetch("http://127.0.0.1:8080/api/usuarios", {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            name: name,
-                            email: email,
+                            username: name,
+                            useremail: email,
                             password: password,
-                            confirmPassword: confirmPassword
+                            role: "ROLE_CLIENTE"
                         })
                     }).then(response => response.json())
                         .then(data => {
-                            console.log(data);
+                            window.location.href = "/fatour/home/dashboard.html";
                         }).catch(error => {
                             Toast.fire({
                                 icon: 'error',
                                 title: 'Erro ao realizar seu cadastro.'
                             });
-                        })*/
+                        })
 
                 } catch (e) {
                     Toast.fire({
