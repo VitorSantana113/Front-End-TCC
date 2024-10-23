@@ -82,6 +82,16 @@
   </div>
   <!--Script Control Access-->
   <script>
+
+    //Pega a URL da pagina anterior
+    const previousURL = document.referrer;
+
+    if (previousURL) {
+      console.log('URL da página anterior:', previousURL);
+    } else {
+      console.log('Nenhuma página anterior encontrada.');
+    }
+
     let userId = localStorage.getItem('userId');
 
     const controlAcess = document.getElementById('controlAcess');
@@ -90,4 +100,5 @@
     }
   </script>
 </body>
+
 </html>
