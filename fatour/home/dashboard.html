@@ -65,7 +65,7 @@
                             <li class="nav-item">
                             </li>
                         </ul>
-                        <a class="fw-bold m-lg-auto nav-link  p-lg-4 text-white" href="home.html">Home</a><a
+                        <a class="fw-bold m-lg-auto nav-link  p-lg-4 text-white" href="/fatour/home/dashboard.html">Home</a><a
                             class="fw-bold m-lg-auto nav-link p-lg-4 text-white" href="#">Carteira</a><a
                             class="fw-bold m-lg-auto nav-link p-lg-4 text-white" href="#">Meus pedidos</a>
                         <ul class="align-items-lg-center ms-auto navbar-nav">
@@ -269,6 +269,8 @@
 
     <!-- Script para receber os cards dinamicamente -->
     <script>
+        localStorage.removeItem("detalhesExcursoes");
+        
         let excursoesOriginais = [];
 
         window.onload = carregarExcursões;

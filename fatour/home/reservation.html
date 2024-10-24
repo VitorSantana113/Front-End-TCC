@@ -65,7 +65,8 @@
                             <li class="nav-item">
                             </li>
                         </ul>
-                        <a class="fw-bold m-lg-auto nav-link  p-lg-4 text-white" href="home.html">Home</a><a
+                        <a class="fw-bold m-lg-auto nav-link  p-lg-4 text-white"
+                            href="/fatour/home/dashboard.html">Home</a><a
                             class="fw-bold m-lg-auto nav-link p-lg-4 text-white" href="#">Carteira</a><a
                             class="fw-bold m-lg-auto nav-link p-lg-4 text-white" href="#">Meus pedidos</a>
                         <ul class="align-items-lg-center ms-auto navbar-nav">
@@ -351,6 +352,15 @@
     <script src="assets/js/popper.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
 
+    <!-- Script Logout -->
+    <script>
+        const btnLogout = document.getElementById('logout');
+        btnLogout.addEventListener('click', function () {
+            localStorage.removeItem('userId');
+            window.location.href = "/fatour/login.html";
+        });
+    </script>
+
     <!-- Script Toast Fire -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
@@ -421,7 +431,14 @@
 
             localStorage.setItem('detalhesExcursoes', JSON.stringify(objectDetails));
 
-            window.location.href = '/fatour/home/pagamento/index.html';
+            if (objectDetails.assentos_selecionados.length == 0) {
+                Toast.fire({
+                    icon: "error",
+                    title: "Para avançar, você precisa selecionar pelo menos 1 assento."
+                });
+            } else {
+                window.location.href = '/fatour/home/identifier.html';
+            }
         });
 
         async function pegaExcursaoPeloId() {
@@ -438,7 +455,7 @@
             const hotelContainer = document.getElementById('hotel-container');
 
             const card = document.createElement('div');
-            card.className = 'row mb-4'; 
+            card.className = 'row mb-4';
 
             card.style.border = '1px solid #ddd';
             card.style.borderRadius = '8px';
