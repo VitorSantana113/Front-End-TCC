@@ -188,6 +188,7 @@
         <!-- Script Principal -->
         <script>
             const previousURL = document.referrer;
+            localStorage.removeItem("dadosReserva");
 
             let detalhesExcursoes = localStorage.getItem("detalhesExcursoes");
             const excursaoObjeto = JSON.parse(detalhesExcursoes);
