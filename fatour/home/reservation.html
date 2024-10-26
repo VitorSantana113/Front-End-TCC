@@ -379,6 +379,7 @@
 
     <script>
         localStorage.removeItem("dadosReserva");
+        localStorage.removeItem('detalhesExcursoes');
         let userId = localStorage.getItem('userId');
 
         const btnPagamento = document.getElementById('btnPagamento');
@@ -405,9 +406,7 @@
             assentosObjeto.forEach(assento => {
                 selectedSeats.push(assento);
             })
-        }
-
-        localStorage.removeItem('detalhesExcursoes');
+        }        
 
         document.querySelectorAll('input[type="checkbox"]').forEach(seat => {
             seat.addEventListener('change', (event) => {

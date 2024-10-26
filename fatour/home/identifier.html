@@ -20,7 +20,7 @@
         <header style="background-color: rgba(255, 255, 255, 0.6);" class="fixed-top">
             <nav class="bg-danger border-bottom navbar navbar-expand-lg navbar-light pb-lg-0 pt-lg-0">
                 <div class="bg-danger container"> <a class="fs-2 fw-bold navbar-brand pe-4 text-light"
-                        href="/fatour/home/dashboard.html">FATOUR</a>
+                        href="/index.html">FATOUR</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarNavDropdown-3" aria-controls="navbarNavDropdown-3" aria-expanded="false"
                         aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span>
@@ -65,9 +65,11 @@
                             <li class="nav-item">
                             </li>
                         </ul>
-                        <a class="fw-bold m-lg-auto nav-link  p-lg-4 text-white" href="home.html">Home</a><a
+                        <a class="fw-bold m-lg-auto nav-link  p-lg-4 text-white"
+                            href="/fatour/home/dashboard.html">Home</a><a
                             class="fw-bold m-lg-auto nav-link p-lg-4 text-white" href="#">Carteira</a><a
-                            class="fw-bold m-lg-auto nav-link p-lg-4 text-white" href="#">Meus pedidos</a>
+                            class="fw-bold m-lg-auto nav-link p-lg-4 text-white"
+                            href="/fatour/home/pedidos/compras.html">Meus pedidos</a>
                         <ul class="align-items-lg-center ms-auto navbar-nav">
                             <li class="nav-item">
                                 <div class="fw-semibold nav-link px-lg-3 py-lg-4 text-white" id="logout"><svg
@@ -236,10 +238,10 @@
                 }
 
                 if (valor.length > 15) {
-                    valor = valor.substring(0, 15); 
+                    valor = valor.substring(0, 15);
                 }
 
-                telefone.value = valor; 
+                telefone.value = valor;
             }
 
             function mascaraCPF(cpf) {
@@ -247,14 +249,14 @@
 
                 if (valor.length <= 11) {
                     valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
-                    valor = valor.replace(/(\d{3})(\d)/, "$1.$2"); 
+                    valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
                     valor = valor.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
                 }
-                cpf.value = valor; 
+                cpf.value = valor;
             }
 
             function validarCPF(cpf) {
-                cpf = cpf.replace(/\D/g, ''); 
+                cpf = cpf.replace(/\D/g, '');
 
                 if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) {
                     return false;
@@ -294,27 +296,27 @@
             document.getElementById('btnPagamento').addEventListener('click', function () {
                 const dadosAssentos = [];
 
-                let todosDadosValidos = true; 
+                let todosDadosValidos = true;
 
                 assentosObjeto.forEach(assento => {
-                    const nome = document.getElementById(`nome-${assento}`).value.trim(); 
+                    const nome = document.getElementById(`nome-${assento}`).value.trim();
                     const email = document.getElementById(`email-${assento}`).value.trim();
-                    const telefone = document.getElementById(`telefone-${assento}`).value.replace(/\D/g, ''); 
-                    const cpf = document.getElementById(`cpf-${assento}`).value.replace(/\D/g, ''); 
+                    const telefone = document.getElementById(`telefone-${assento}`).value.replace(/\D/g, '');
+                    const cpf = document.getElementById(`cpf-${assento}`).value.replace(/\D/g, '');
 
                     if (nome === '') {
                         Toast.fire({
                             icon: "error",
-                            title: `O campo nome é obrigatório para o assento ${assento}.`
+                            title: `O campo 'nome' é obrigatório para o assento ${assento}.`
                         });
-                        todosDadosValidos = false; 
+                        todosDadosValidos = false;
                         return;
                     }
 
                     if (!validarCPF(cpf)) {
                         Toast.fire({
                             icon: "error",
-                            title: `O CPF ${cpf} é inválido para o assento ${assento}.`
+                            title: `O CPF '${cpf}' é inválido para o assento ${assento}.`
                         });
                         todosDadosValidos = false;
                         return;
@@ -326,14 +328,18 @@
                         seats: assento,
                         name: nome,
                         email: email,
-                        telephone: telefone, 
-                        cpf: cpf 
+                        telephone: telefone,
+                        cpf: cpf
                     };
-                    dadosAssentos.push(dados); 
+                    dadosAssentos.push(dados);
                 });
 
                 if (todosDadosValidos) {
-                    localStorage.setItem("dadosReserva", dadosAssentos);
+                    const assentos = {
+                        dadosAssentos: dadosAssentos
+                    };
+
+                    localStorage.setItem("dadosReserva", JSON.stringify(assentos));
                     window.location.href = "/fatour/home/pagamento/index.html";
                 }
             });
