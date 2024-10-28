@@ -198,20 +198,25 @@
 
     async function enviarDadosCompraExcursao(assentos, pagamento) {
       try {
-        const response = await fetch("http://127.0.0.1:8080/api/excursions", {
+        const response = await fetch("http://127.0.0.1:8080/api/excursions/payment", {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
             seats: assentos,
-            payment: pagamento
+            name: pagamento.titular,
+            number: pagamento.numero,
+            validity: pagamento.validade,
+            cvv: pagamento.cvv,
+            excursionId: pagamento.excursaoId,
+            usuarioId: pagamento.userId
           })
         });
 
         const data = await response.json();
 
-        if (!response.ok) {
+        if (!response.status(200)) {
           Toast.fire({
             icon: "error",
             title: "Erro ao enviar os dados da compra."
