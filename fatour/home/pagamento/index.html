@@ -35,11 +35,15 @@
             </div>
           </label>
 
-          <label for="paypal" class="method paypal">
-            <img src="https://designmodo.com/demo/checkout-panel/img/paypal_logo.png" />
+          <label for="card" class="method card">
+            <div class="card-logos">
+              <img src="https://designmodo.com/demo/checkout-panel/img/visa_logo.png" />
+              <img src="https://designmodo.com/demo/checkout-panel/img/mastercard_logo.png" />
+            </div>
+
             <div class="radio-input">
-              <input id="paypal" type="radio" name="payment">
-              Pague <span id="valorPagamentoPayPal"></span> com PayPal
+              <input id="card" type="radio" name="payment">
+              Pague <span id="valorPagamentoCartaoDebito"></span> com cartão de débito
             </div>
           </label>
         </div>
@@ -112,31 +116,20 @@
   <!-- Script Logica -->
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
+      let detalhesExcursoes = JSON.parse(localStorage.getItem("detalhesExcursoes"));
+      let userId = detalhesExcursoes.userId;
+      let excursaoId = detalhesExcursoes.excursaoId;
+
       let dadosReserva = JSON.parse(localStorage.getItem("dadosReserva"));
       let dadosAssentos = dadosReserva.dadosAssentos;
-      let userId;
-      let excursaoId;
-
-      for (let i = 0; i < dadosAssentos.length; i++) {
-        const element = dadosAssentos[i];
-        userId = element.userId;
-        excursaoId = element.excursaoId;
-        if (excursaoId && userId) break;
-      }
 
       try {
         let valorExcursao = await obterValorExcursao(excursaoId);
 
-        if (typeof valorExcursao === "number") {
-          let valorPagamento = valorExcursao * dadosAssentos.length;
-          document.getElementById("valorPagamentoCartao").innerText = `R$${valorPagamento.toFixed(2).replace(".", ",")}`;
-          document.getElementById("valorPagamentoPayPal").innerText = `R$${valorPagamento.toFixed(2).replace(".", ",")}`;
-        } else {
-          Toast.fire({
-            icon: "error",
-            title: "Valor da excursão não é um número"
-          });
-        }
+        let valorPagamento = valorExcursao * dadosAssentos.length;
+        document.getElementById("valorPagamentoCartao").innerText = `R$${valorPagamento.toFixed(2).replace(".", ",")}`;
+        document.getElementById("valorPagamentoCartaoDebito").innerText = `R$${valorPagamento.toFixed(2).replace(".", ",")}`;
+
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -214,21 +207,22 @@
           })
         });
 
-        const data = await response.json();
-
-        if (!response.status(200)) {
+        if (!response.ok) {
           Toast.fire({
             icon: "error",
             title: "Erro ao enviar os dados da compra."
           });
-        } else {
-          //window.location.href = "/fatour/admin/excursoes.html";
+          return;
         }
+
+        window.location.href = "/fatour/home/pagamento/confirmation.html";
+
       } catch (error) {
         Toast.fire({
           icon: 'error',
-          title: error
+          title: "Ocorreu um erro ao processar sua solicitação. Tente novamente."
         });
+        console.error("Erro:", error);
       }
     }
 
