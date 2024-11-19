@@ -232,8 +232,8 @@
 
         const mapContainer = document.getElementById('map-container');
 
-        window.onload = carregarExcursoesUsuario;
-        window.onload = updateMap;
+        carregarExcursoesUsuario();
+        updateMap();
 
         async function carregarExcursoesUsuario() {
             try {
