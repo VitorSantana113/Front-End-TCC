@@ -86,31 +86,16 @@
                 </nav>
             </header>
             <div style="margin-top: 15vh;">
-                <div class="containerPedidos">
-                    <div class="order">
-                        <div class="order-header">
-                            <div class="dados">
-                                <p>Id do pedido:</p>
-                                <h3>41035388</h3>
-                            </div>
-                            <div class="dados">
-                                <p>Data da Compra:</p>
-                                <h3>13/10/2024</h3>
-                            </div>
-                        </div>
-                        <hr class="line">
-                        <div class="order-details">
-                            <div class="location">
-                                <p>Guaruja, SP</p>
-                                <p>Sao Paulo, SP - Jabaquara</p>
-                            </div>
-                            <p class="status">Confirmado</p>
-                        </div>
-                    </div>
-                    <div class="button-containerPedidos">
-                        <button class="detalhes">VER DETALHES</button>
-                    </div>
+                <div
+                    style="display: flex; justify-content: center; align-items: center; gap: 10px; text-align: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-bag"
+                        viewBox="0 0 16 16" style="display: inline-block;">
+                        <path
+                            d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" />
+                    </svg>
+                    <h2 style="margin: 0; line-height: 1;">Reservas</h2>
                 </div>
+                <div class="containerPedidos"></div>
             </div>
 
             <div id="modal" class="modal">
@@ -131,14 +116,28 @@
                                 <p>Aparecida do Norte</p>
                             </div>
                             <div class="viagem-horarios">
-                                <p class="horario">07:00</p>
+                                <p class="horario">23/11/2024, 23:00</p>
                                 <i class="fas fa-bus"></i>
-                                <p class="horario">10:15</p>
+                                <p class="horario">24/11/2024, 15:00</p>
                             </div>
                             <p class="viagem-instrucoes">Você tem passagem para retirar: não esqueça de
                                 chegar
                                 cedo e apresentar seu documento com foto.
                             </p>
+                        </div>
+                    </div>
+                    <div class="viagem-passageiros">
+                        <hr>
+                        <div>
+                            <h3>Assentos reservados</h3>
+                        </div>
+                        <div class="assento-reservado">
+                            <p>Nome: Vitor do Nascimento Santana</p>
+                            <p>Assento: 15</p>
+                        </div>
+                        <div class="assento-reservado">
+                            <p>Nome: Maria Eduarda</p>
+                            <p>Assento: 16</p>
                         </div>
                     </div>
                     <div class="modal-maps">
@@ -237,9 +236,44 @@
 
         async function carregarExcursoesUsuario() {
             try {
-                const response = await fetch(`http://127.0.0.1:8080/api/usuarios/${userId}/seat`);
+                const response = await fetch(`http://127.0.0.1:8080/api/usuarios/${userId}/payments`);
                 const pedidos = await response.json();
-                console.log(pedidos);
+
+                const container = document.querySelector('.containerPedidos');
+                container.innerHTML = '';
+
+                pedidos.forEach(pedido => {
+                    const dataCompra = formatarData(pedido.date);
+                    const dataIda = formatarDataHora(pedido.going);
+                    const dataVolta = formatarDataHora(pedido.back);
+
+                    const card = document.createElement('div');
+                    card.classList.add('order');
+                    card.innerHTML = `
+                        <div class="order-header">
+                            <div class="dados">
+                                <p>Id do pedido:</p>
+                                <h3>${pedido.paymentId}</h3>
+                            </div>
+                            <div class="dados">
+                                <p>Data da Compra:</p>
+                                <h3>${dataCompra}</h3>
+                            </div>
+                        </div>
+                        <hr class="line">
+                        <div class="order-details">
+                            <div class="location">
+                                <p>${pedido.location}</p>
+                                <p>Ida: ${dataIda} - Volta: ${dataVolta}</p>
+                            </div>
+                            <p class="status">Confirmado</p>
+                        </div>
+                        <div class="button-containerPedidos">
+                            <button class="detalhes" onclick="verDetalhes(${pedido.paymentId})">VER DETALHES</button>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
 
             } catch (error) {
                 Toast.fire({
@@ -248,6 +282,21 @@
                 });
             }
         }
+
+        function formatarData(dataISO) {
+            const data = new Date(dataISO);
+            return data.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+        }
+
+        function formatarDataHora(dataISO) {
+            const data = new Date(dataISO);
+            return data.toLocaleString('pt-BR', { timeZone: 'UTC' });
+        }
+
+        function verDetalhes(paymentId) {
+            console.log(`Detalhes do pedido ${paymentId}`);
+        }
+
 
         function updateMap() {
             let location = "Aparecida do Norte";
@@ -262,6 +311,13 @@
 
         * {
             font-family: 'Poppins', sans-serif;
+        }
+
+        .order {
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin: 15px 0;
+            background-color: #fff;
         }
 
         #logout:hover {
