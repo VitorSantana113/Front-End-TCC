@@ -284,17 +284,27 @@
         }
 
         function formatarData(dataISO) {
-            const data = new Date(dataISO);
-            return data.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+            const [ano, mes, dia] = dataISO.split('-');
+            const data = new Date(ano, mes - 1, dia); 
+            return data.toLocaleDateString('pt-BR');
         }
 
         function formatarDataHora(dataISO) {
             const data = new Date(dataISO);
-            return data.toLocaleString('pt-BR', { timeZone: 'UTC' });
+            return data.toLocaleString('pt-BR');
         }
 
-        function verDetalhes(paymentId) {
-            console.log(`Detalhes do pedido ${paymentId}`);
+        async function verDetalhes(paymentId) {
+            try {
+                const response = await fetch(`http://127.0.0.1:8080/api/usuarios/${userId}/payments/${paymentId}/details`);
+                const pedidosDetalhados = await response.json();
+                console.log(pedidosDetalhados);
+            } catch (error) {
+                Toast.fire({
+                    icon: "error",
+                    title: "Erro ao carregar os pedidos do usuário"
+                });
+            }
         }
 
 
