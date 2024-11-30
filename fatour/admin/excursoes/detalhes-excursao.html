@@ -101,7 +101,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
 
+    <!--Script Gestão de acesso-->
+    <script>
+        let role_user = localStorage.getItem('role');
+        const controlAcess = document.getElementById('controlAcess');
 
+        if (role_user != "ROLE_CLIENTE") {
+            controlAcess.style.display = 'block';
+        } else {
+            controlAcess.style.display = 'none';
+        }
+    </script>
 
     <!-- Script Logout -->
     <script>

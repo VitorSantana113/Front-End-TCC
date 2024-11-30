@@ -263,6 +263,7 @@
         const btnLogout = document.getElementById('logout');
         btnLogout.addEventListener('click', function () {
             localStorage.removeItem('userId');
+            localStorage.removeItem('role');
             window.location.href = "/fatour/login.html";
         });
     </script>

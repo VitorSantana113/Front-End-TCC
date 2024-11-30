@@ -39,20 +39,21 @@
         </header>
         <main>
             <section class="pb-5 pt-5 mt-5">
-                <div >
-                    <div style="display: flex; justify-content: space-around; margin: 30px; gap: 20%;"> 
-                        <a href="/fatour/admin/excursoes.html" style="text-decoration: none;"><button type="button" class="btn btn-secondary"
-                            style="display: flex; align-items: center; justify-content: space-between; gap: 5px; margin-right: 20px; font-size: 14px; margin: 0;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-arrow-left" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd"
-                                    d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8">
-                                </path>
-                            </svg>
-                            Voltar
-                        </button></a>
-                    <h2 style="margin: 0;">Nova excursão</h2>
-                    <div></div>
+                <div>
+                    <div style="display: flex; justify-content: space-around; margin: 30px; gap: 20%;">
+                        <a href="/fatour/admin/excursoes.html" style="text-decoration: none;"><button type="button"
+                                class="btn btn-secondary"
+                                style="display: flex; align-items: center; justify-content: space-between; gap: 5px; margin-right: 20px; font-size: 14px; margin: 0;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-arrow-left" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8">
+                                    </path>
+                                </svg>
+                                Voltar
+                            </button></a>
+                        <h2 style="margin: 0;">Nova excursão</h2>
+                        <div></div>
                     </div>
                 </div>
 
@@ -95,6 +96,18 @@
     <script src="/fatour/home/assets/js/popper.min.js"></script>
     <script src="/fatour/home/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!--Script Gestão de acesso-->
+    <script>
+        let role_user = localStorage.getItem('role');
+        const controlAcess = document.getElementById('controlAcess');
+
+        if (role_user != "ROLE_CLIENTE") {
+            controlAcess.style.display = 'block';
+        } else {
+            controlAcess.style.display = 'none';
+        }
+    </script>
 
     <!-- Script Logout -->
     <script>
